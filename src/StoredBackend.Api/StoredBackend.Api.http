@@ -1,0 +1,6 @@
+@StoredBackend.Api_HostAddress = http://localhost:5288
+
+GET {{StoredBackend.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
