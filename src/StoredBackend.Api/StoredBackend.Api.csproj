@@ -8,6 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StoreBackend.Dto\StoreBackend.Dto.csproj" />
+    <ProjectReference Include="..\StoreBackend.Facade\StoreBackend.Facade.csproj" />
   </ItemGroup>
 
 </Project>
