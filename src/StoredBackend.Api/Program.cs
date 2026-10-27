@@ -6,23 +6,38 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// Configuración del DbContext con SQL Server[cite: 9]
+// Configuración del DbContext con SQL Server
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")
     )
 );
 
-// Repositories[cite: 10]
+// Repositories
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
-// Services[cite: 10]
+// Services
 builder.Services.AddScoped<IProductService, ProductService>();
 
-// Facades[cite: 10]
+// Facades
 builder.Services.AddScoped<IProductFacade, ProductFacade>();
 
 builder.Services.AddControllers();
+
+var allowedOrigins = builder.Configuration
+    .GetSection("Cors:AllowedOrigins")
+    .Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowedOriginsPolicy", policy =>
+    {
+        policy.WithOrigins(allowedOrigins!)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -35,6 +50,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowedOriginsPolicy");
 
 app.UseAuthorization();
 
