@@ -32,3 +32,5 @@ C:\Users\Profesores\Documents\Desarrollo de software IV\Practica-de-StoredBacken
 C:\Users\Profesores\Documents\Desarrollo de software IV\Practica-de-StoredBackend-Dev-IV\src\StoreBackend.Infrastructure\obj\Debug\net10.0\StoreBac.23ED2D34.Up2Date
 C:\Users\Profesores\Documents\Desarrollo de software IV\Practica-de-StoredBackend-Dev-IV\src\StoreBackend.Infrastructure\obj\Debug\net10.0\StoreBackend.Infrastructure.genruntimeconfig.cache
 C:\Users\Profesores\Documents\Desarrollo de software IV\Practica-de-StoredBackend-Dev-IV\src\StoreBackend.Infrastructure\obj\Debug\net10.0\ref\StoreBackend.Infrastructure.dll
+C:\Users\sebas\OneDrive\Documents\Practica-de-StoredBackend-Dev-IV\src\StoreBackend.Infrastructure\bin\Debug\net10.0\StoreBackend.Infrastructure.runtimeconfig.json
+C:\Users\sebas\OneDrive\Documents\Practica-de-StoredBackend-Dev-IV\src\StoreBackend.Infrastructure\obj\Debug\net10.0\StoreBackend.Infrastructure.genruntimeconfig.cache
