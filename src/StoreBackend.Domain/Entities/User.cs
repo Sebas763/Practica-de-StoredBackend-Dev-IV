@@ -1,21 +1,32 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("Users")]
+namespace StoreBackend.Domain.Entities;
+
+[Table("User")]
 public class User
 {
-    [Key] //atributos
+    [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int UserId { get; private set; }
 
     [Required]
     public Guid UserResourceId { get; set; }
-
     [Column("Name")]
     [StringLength(50)]
-    public string? Name { get; set; }
+    [Required]
+    public required string Name { get; set; }
 
-    [Column("Email")]
-    [StringLength(100)]
-    public string? Email { get; set; }
+    [Column("Username")]
+    [StringLength(50)]
+    [Required]
+    public required string Username { get; set; }
+    [Required]
+    [MaxLength(100)]
+    [EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [Required]
+    [MaxLength(255)]
+    public string PasswordHash { get; set; } = string.Empty;
 }

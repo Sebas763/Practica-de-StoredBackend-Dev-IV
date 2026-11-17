@@ -1,12 +1,14 @@
-using System;
+using StoreBackend.Domain.Entities;
 using StoreBackend.Dto;
 
 namespace StoreBackend.DomainService;
 
 public interface IUserService
 {
+    Task<User> CreateAsync(CreateUserDto user);
+
+    // Agregados para la pantalla de usuarios (listar, ver detalle y eliminar)
     Task<List<User>> GetAllAsync();
-    Task<User?> GetByIdAsync(Guid userId);
-    Task<User> AddAsync(UserDto user);
-    Task DeleteAsync(Guid userId);
+    Task<User?> GetByIdAsync(Guid userResourceId);
+    Task DeleteAsync(Guid userResourceId);
 }

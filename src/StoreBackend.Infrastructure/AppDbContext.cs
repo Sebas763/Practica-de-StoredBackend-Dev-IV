@@ -1,5 +1,5 @@
-
 using Microsoft.EntityFrameworkCore;
+using StoreBackend.Domain.Entities;   // ← necesario porque User ahora está en ese namespace
 
 public class AppDbContext : DbContext
 {
@@ -8,7 +8,7 @@ public class AppDbContext : DbContext
     ) : base(options)
     {
     }
- 
+
     public DbSet<Product> Products { get; set; } = null!;
 
     public DbSet<User> Users { get; set; } = null!;

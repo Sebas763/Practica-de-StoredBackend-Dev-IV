@@ -1,4 +1,3 @@
-using System;
 using StoreBackend.DomainService;
 using StoreBackend.Dto;
 using StoreBackend.Exceptions;
@@ -17,18 +16,14 @@ public class UserFacade : IUserFacade
         this.context = context;
     }
 
-    public async Task<UserDto> AddAsync(UserDto user)
+    public async Task<UserDto> CreateAsync(CreateUserDto user)
     {
-        var entity = await userService.AddAsync(user);
+        var entity = await userService.CreateAsync(user);
         await context.SaveChangesAsync();
         return UserMapper.ToDto(entity);
     }
 
-    public async Task DeleteAsync(Guid userId)
-    {
-        await userService.DeleteAsync(userId);
-        await context.SaveChangesAsync();
-    }
+    // ---- Agregados para la pantalla de usuarios ----
 
     public async Task<List<UserDto>> GetAllAsync()
     {
@@ -36,10 +31,16 @@ public class UserFacade : IUserFacade
         return UserMapper.ToDto(entities);
     }
 
-    public async Task<UserDto> GetByIdAsync(Guid userId)
+    public async Task<UserDto> GetByIdAsync(Guid userResourceId)
     {
-        var entity = await userService.GetByIdAsync(userId);
+        var entity = await userService.GetByIdAsync(userResourceId);
         if (entity == null) throw new ResourceNotFoundException();
         return UserMapper.ToDto(entity);
+    }
+
+    public async Task DeleteAsync(Guid userResourceId)
+    {
+        await userService.DeleteAsync(userResourceId);
+        await context.SaveChangesAsync();
     }
 }

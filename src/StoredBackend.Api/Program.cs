@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using StoreBackend.DomainService;
 using StoreBackend.Facade;
+using StoreBackend.Infrastructure.Repositories;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +44,43 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Rate Limiting: valores que vienen del appsettings.json
+var permitLimit = builder.Configuration
+    .GetValue<int>("RateLimiting:PermitLimit");
+
+var windowSeconds = builder.Configuration
+    .GetValue<int>("RateLimiting:WindowSeconds");
+
+var queueLimit = builder.Configuration
+    .GetValue<int>("RateLimiting:QueueLimit");
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("fixed", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = permitLimit;
+        limiterOptions.Window = TimeSpan.FromSeconds(windowSeconds);
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        limiterOptions.QueueLimit = queueLimit;
+    });
+
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.ContentType = "application/json";
+
+        await context.HttpContext.Response.WriteAsync(
+            """
+            {
+                "status": 429,
+                "message": "Demasiadas solicitudes. Intente nuevamente más tarde."
+            }
+            """,
+            cancellationToken: token);
+    };
+});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -57,6 +97,8 @@ app.UseHttpsRedirection();
 app.UseCors("AllowedOriginsPolicy");
 
 app.UseAuthorization();
+
+app.UseRateLimiter();
 
 app.MapControllers();
 
